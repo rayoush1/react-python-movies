@@ -25,6 +25,16 @@ function App() {
     }, []); 
 
 
+    async function handleDeleteMovie(movie) {
+        const response = await fetch(`/movies/${movie.id}`, {method: 'DELETE',
+        });
+        
+        if (response.ok) {
+            const nextMovies = movies.filter(m => m !== movie);
+            setMovies(nextMovies);
+        }
+    }
+
     async function handleAddMovie(movie) {
         const response = await fetch('/movies', {
             method: 'POST',
@@ -44,7 +54,7 @@ function App() {
             {movies.length === 0
                 ? <p>No movies yet. Maybe add something?</p>
                 : <MoviesList movies={movies}
-                              onDeleteMovie={(movie) => setMovies(movies.filter(m => m !== movie))}
+                              onDeleteMovie={handleDeleteMovie}
                 />}
             {addingMovie
                 ? <MovieForm onMovieSubmit={handleAddMovie}
