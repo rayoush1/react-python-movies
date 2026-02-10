@@ -1,21 +1,34 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 
-export default function MovieForm(props) {
-    const [title, setTitle] = useState('');
-    const [year, setYear] = useState('');
-    const [director, setDirector] = useState('');
-    const [description, setDescription] = useState('');
+export default function MovieEditForm(props) {
+    const [id, setMovieId] = useState(props.movie.id);
+    const [title, setTitle] = useState(props.movie.title);
+    const [year, setYear] = useState(props.movie.year);
+    const [director, setDirector] = useState(props.movie.director);
+    const [description, setDescription] = useState(props.movie.description);
 
-    function addMovie(event) {
+    useEffect(() => {
+        if (props.movie) {
+            setMovieId(props.movie.id);
+            setTitle(props.movie.title);
+            setYear(props.movie.year);
+            setDirector(props.movie.director);
+            setDescription(props.movie.description);
+        }
+    }, [props.movie]);
+
+    function editMovie(event) {
         event.preventDefault();
         if (title.length < 5) {
             return alert('Tytuł jest za krótki');
         }
-        props.onMovieSubmit({title, year, director, description});
-        setTitle('');
-        setYear('');
-        setDirector('');
-        setDescription('');
+        props.onMovieEdit({id, title, year, director, description});
+
+        //setMovieId('');
+        //setTitle('');
+        //setYear('');
+        //setDirector('');
+        //setDescription('');
     }
 
     function cancel() {
@@ -26,8 +39,8 @@ export default function MovieForm(props) {
         props.onCancel();
     }
 
-    return <form onSubmit={addMovie}>
-        <h2>Add movie</h2>
+    return <form onSubmit={editMovie}>
+        <h2>Edit a movie</h2>
         <div>
             <label>Tytuł</label>
             <input type="text" value={title} onChange={(event) => setTitle(event.target.value)}/>

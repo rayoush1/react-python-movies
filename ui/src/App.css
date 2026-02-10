@@ -40,3 +40,15 @@
 ul.movies-list {
   list-style: none;
 }
+
+ul.actor-list {
+  list-style: none;
+}
+
+ul.cast-list {
+  list-style: none;
+}
+
+ul.castedit-list {
+  list-style: none;
+}
