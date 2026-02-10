@@ -2,7 +2,6 @@ export default function CastItem(props) {
     return (
         <div>
             <div>
-                <strong>{props.actor.id}</strong>
                 {' '}
                 <strong>{props.actor.name}</strong>
                 {' '}

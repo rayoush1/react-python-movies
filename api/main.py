@@ -22,7 +22,7 @@ def serve_react_app():
 
 
 #######################################################################
-# Część labu od punktu 5 (obsługa bazy danych)
+# Obsługa bazy danych
 #######################################################################
 
 # Funkcja łączy się z bazą danych dbase, zwraca cursor i zamyka połączenie
@@ -232,7 +232,7 @@ def update_movie_id(id: int, params: dict[str, Any], db = Depends(handle_connect
         raise HTTPException(status_code=500, detail=f"Błąd: {str(e)}")
     
 #############################################################################
-# Funkcja obsługująca joina tabel actor i movie_actor_through
+# Funkcje obsługująca joina tabel actor i movie_actor_through oraz movie_actor_through
 #############################################################################
 
 # Pobiera informacje o aktorach grających w filmie z id = {film_id} z tabeli

@@ -2,7 +2,6 @@ export default function MovieListItem(props) {
     return (
         <div>
             <div>
-                <strong>{props.movie.id}</strong>
                 {' '}
                 <strong>{props.movie.title}</strong>
                 {' '}

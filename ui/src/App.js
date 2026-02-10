@@ -22,11 +22,7 @@ function App() {
     const [editCastOf, setEditCastOf] = useState(null);  // czy (ew. null) i ktorego filmu obsade chcemy powiekszyc (tj. dodac aktora)
     const [showCast, setShowCast] = useState(null); // czy (ew. null) i ktorego filmu obsade aktualnie podgladamy
 
- //   function handleAddMovie(movie) {
- //       setMovies([...movies, movie]);
- //       setAddingMovie(false);
- //   }
-
+    // Pobieranie listy filmow
     useEffect(() => {
     const fetchMovies = async () => {
         const response = await fetch(`/movies`);
@@ -39,6 +35,7 @@ function App() {
     fetchMovies();
     }, []);
 
+    // Pobieranie listy aktorow
     useEffect(() => {
     const fetchActors = async () => {
         const response = await fetch(`/actors`);
@@ -51,7 +48,7 @@ function App() {
     fetchActors();
     }, []); 
 
-
+    // Funkcja usuwania filmu
     async function handleDeleteMovie(movie) {
         const response = await fetch(`/movies/${movie.id}`, {method: 'DELETE',
         });
@@ -64,6 +61,7 @@ function App() {
         }
     }
 
+    // Usuwanie aktora z obsady konkretnego filmu
     async function deleteActorCast(actor) {
         const response = await fetch(`/movies/${showCast.id}/actors/${actor.id}`, {method: 'DELETE',
         });
@@ -76,27 +74,7 @@ function App() {
         }
     }
 
-   // async function handleEditCast(actor) {
-   //     const response = await fetch(`/movies/${.id}/actors/`, {
-   //         method: 'POST',
-   //         body: JSON.stringify(actor),
-   //         headers: { 'Content-Type': 'application/json' }
-    //    });
-
-      //  if (response.ok) {
-        //    const addingResponse = await response.json()
-            
-            //Chcemy zeby od razu mial ID
-          //  const newActor= {
-            //    ...actor,
-              //  id: addingResponse.id
-           // };
-            
-            //setCast(prev => [...prev, newActor]);
-            //setAddingActor(false);
-        //}
-    //}
-
+    // Funkcja obsługująca usuwanie aktora
     async function handleDeleteActor(actor) {
         const response = await fetch(`/actors/${actor.id}`, {method: 'DELETE',
         });
@@ -108,6 +86,7 @@ function App() {
         
     }
 
+    // Dodawanie filmu
     async function handleAddMovie(movie) {
         const response = await fetch('/movies', {
             method: 'POST',
@@ -117,19 +96,13 @@ function App() {
 
         if (response.ok) {
             const addingResponse = await response.json()
-            //movie.id = addingResponse.id;
-
-            //const newMovie = {
-            //    ...movie,
-            //    id: addingResponse.id
-            //};
-
 
             setMovies(prev => [...prev, addingResponse]);
             setAddingMovie(false);
         }
     }
 
+    // Dodawanie aktora
     async function handleAddActor(actor) {
         const response = await fetch('/actors', {
             method: 'POST',
@@ -151,6 +124,7 @@ function App() {
         }
     }
 
+    // Dodaj aktora do obsady filmu
     async function handleEditCast(actor) {
         const response = await fetch(`/movies/${editCastOf.id}/actors/${actor.id}`, {
             method: 'POST',
@@ -161,17 +135,12 @@ function App() {
         if (response.ok) {
             const addingResponse = await response.json()
             
-            //Chcemy zeby od razu mial ID
-            //const newActor = {
-            //    ...actor,
-            //    id: addingResponse.id
-            //};
-            
             setCast(prev => [...prev, actor]);
            // setAddingActor(false);
         }
     }
 
+    // Edytuj dane filmu
     async function handleEditMovie(movie) {
         const response = await fetch(`/movies/${movie.id}`, {
             method: 'PUT',
@@ -180,15 +149,6 @@ function App() {
         });
 
         if (response.ok) {
-            //const updatedMovie = await response.json();
-            //const addingResponse = await response.json()
-            //movie.id = addingResponse.id;
-            //movie.title = addingResponse.title;
-            //setMovies([...movies, movie]);
-            //const updatedMovie = await response.json();
-            //console.log(typeof movie.id);
-            //console.log(typeof movies[0].id);
-            //setMovies(prev => prev.map(m => m.id === updatedMovie.id ? updatedMovie : m));
             setMovies(prev => prev.map(m =>m.id === movie.id ? movie : m));
 
             //setMovies(prev => prev.map(m => m.id === movie.id ? { ...m, title: movie.title } : m));
@@ -196,7 +156,7 @@ function App() {
         }
     }
 
-
+    // Edytuj dane aktora
     async function handleEditActor(actor) {
         const response = await fetch(`/actors/${actor.id}`, {
             method: 'PUT',
@@ -205,15 +165,7 @@ function App() {
         });
 
         if (response.ok) {
-            //const updatedMovie = await response.json();
-            //const addingResponse = await response.json()
-            //movie.id = addingResponse.id;
-            //movie.title = addingResponse.title;
-            //setMovies([...movies, movie]);
-            //const updatedMovie = await response.json();
-            //console.log(typeof movie.id);
-            //console.log(typeof movies[0].id);
-            //setMovies(prev => prev.map(m => m.id === updatedMovie.id ? updatedMovie : m));
+
             setActors(prev => prev.map(a =>a.id === actor.id ? actor : a));
 
             //setMovies(prev => prev.map(m => m.id === movie.id ? { ...m, title: movie.title } : m));
@@ -221,21 +173,25 @@ function App() {
         }
     }
 
+    // Ustal, ktory film edytujemy
     function handleMovieForm(movie) {
         setEditMovie(movie);
         console.log("Editing movie:", movie);
     }
 
+    // Ustal, ktorego aktora edytujemy
     function handleActorForm(actor) {
         setEditActor(actor);
         console.log("Editing actor:", actor);
     }
 
+    // Ustal, ktorego filmu obsade edytujemy
     function handleCastForm(movie) {
         setEditCastOf(movie);
         console.log("Editing cast of:", movie);
     }
 
+    // Pokaż obsadę wybranego filmu
     async function handleShowCast(movie) {
         setShowCast(movie);
         setEditCastOf(null);
