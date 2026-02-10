@@ -59,6 +59,8 @@ function App() {
         if (response.ok) {
             const nextMovies = movies.filter(m => m !== movie);
             setMovies(nextMovies);
+            setShowCast(null);
+            setEditCastOf(null);
         }
     }
 
@@ -103,6 +105,7 @@ function App() {
             const nextActors = actors.filter(a => a !== actor);
             setActors(nextActors);
         }
+        
     }
 
     async function handleAddMovie(movie) {
@@ -235,7 +238,7 @@ function App() {
 
     async function handleShowCast(movie) {
         setShowCast(movie);
-        setEditCastOf(movie);
+        setEditCastOf(null);
         console.log("Showing cast:", movie)
 
         const response = await fetch(`/movies/${movie.id}/actors`);
@@ -250,7 +253,7 @@ function App() {
 
     return (
         <div className="container">
-            <h1>My favourite movies to watch</h1>
+            <h1>Small movie database</h1>
             <><button onClick={() => setAddingMovie(true)}>Add movie</button> <button onClick={() => setAddingActor(true)}>Add actor</button> <button onClick={() => setShowingActors(true)}>Show actors</button></>
             {movies.length === 0
                 ? <p> No movies yet. Maybe add something? </p>

@@ -3,15 +3,23 @@
 # Autor: Rami Ayoush
 # ###################################################################
 
+from fastapi import FastAPI, HTTPException, Depends
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+
+import requests
+from typing import Any
 from http.client import responses
 import sqlite3
 
-from fastapi import FastAPI, HTTPException, Depends
-import requests
-
-from typing import Any
-
 app = FastAPI()
+
+app.mount("/static", StaticFiles(directory="../ui/build/static", check_dir=False), name="static")
+
+@app.get("/")
+def serve_react_app():
+   return FileResponse("../ui/build/index.html")
+
 
 #######################################################################
 # Część labu od punktu 5 (obsługa bazy danych)
